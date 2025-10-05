@@ -37,6 +37,8 @@ def __process(paths: list, ext_from: list, ext_to: str, cpu: int,
 
     from PIL import ImageOps
 
+    #print(f"[DEBUG] recursive={recursive} ({type(recursive)})")
+
     # --- Parsing de la taille cible ---
     target_size = None
     if size:
@@ -55,7 +57,7 @@ def __process(paths: list, ext_from: list, ext_to: str, cpu: int,
         elif os.path.isdir(path):
             for ext in ext_from:
                 files = glob(os.path.join(path, "**", f"*.{ext}"), recursive=recursive)
-                all_files.extend(files)
+                all_files.extend([f for f in files if f.lower().endswith(ext.lower())])
         else:
             print(f'[WARN] Path "{path}" does not exist')
             continue
